@@ -43,4 +43,20 @@ public class Player {
     public void setTank(TankPrototype tank) {
         this.tank = tank;
     }
+
+    public void goUp(){
+        site[1]++;
+    }
+
+    public void goDown(){
+        site[1]--;
+    }
+
+    public void goLeft(){
+        site[0]++;
+    }
+
+    public void goRight(){
+        site[0]--;
+    }
 }

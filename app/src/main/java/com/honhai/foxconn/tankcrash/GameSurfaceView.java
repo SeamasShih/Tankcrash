@@ -1,6 +1,7 @@
 package com.honhai.foxconn.tankcrash;
 
 import android.content.Context;
+import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,6 +25,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private SurfaceHolder mSurfaceHolder;
     private Canvas mCanvas;
     private boolean mIsDrawing;
+    private int interval = 120;
     GameData gameData = GameData.getInstance();
 
     private void initial() {
@@ -63,9 +65,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.translate(mCanvas.getWidth()/2,mCanvas.getHeight()/2);
             drawMap();
-            drawFog();
             drawTank();
             drawArtilleryShell();
+            drawFog();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -76,7 +78,14 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void drawMap() {
+        float x = gameData.getMyself().getSite()[0];
+        float y = gameData.getMyself().getSite()[1];
+        mCanvas.save();
+        mCanvas.translate(x*interval,y*interval);
+        //todo draw map
         mCanvas.drawColor(Color.WHITE);
+        mCanvas.drawCircle(0,0,50,new Paint());
+        mCanvas.restore();
     }
 
     private void drawFog(){
@@ -92,7 +101,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private void drawTank(){
         TankPrototype tank = gameData.getMyself().getTank();
-        tank.draw(mCanvas,0,0,300,300);
+        tank.draw(mCanvas,0,0,interval,interval);
     }
 
     private void drawArtilleryShell(){
