@@ -1,16 +1,19 @@
 package com.honhai.foxconn.tankcrash;
 
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.Network.TankClient;
 
+public class MainActivity extends AppCompatActivity implements ReceiveListener {
+
+    private final String TAG = "MainActivity";
     EditText editText;
     Button button;
 
@@ -24,18 +27,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String s = String.valueOf(editText.getText());
-                String serverIp = "192.168.1.37";
-                int port = 9487;
-            }
+        button.setOnClickListener(v -> {
+            String s = String.valueOf(editText.getText());
+            String serverIp = "192.168.1.37";
+            int port = 9487;
+
+            TankClient tankClient =  new TankClient(this, serverIp, port);
+            tankClient.sendMessage("from tank client");
         });
     }
 
     private void findViews() {
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.button);
+    }
+
+    @Override
+    public void onMessageReceive(String message) {
+        Log.d(TAG, "onMessageReceive: message : " + message);
     }
 }
