@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.honhai.foxconn.tankcrash.ButtonView.DirectorKey
+        android:id="@+id/upKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/rightKey"
+        app:layout_constraintEnd_toStartOf="@+id/rightKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.DirectorKey
+        android:id="@+id/downKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/leftKey"
+        app:layout_constraintTop_toBottomOf="@id/leftKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.DirectorKey
+        android:id="@+id/leftKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:rotation="270"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/upKey"
+        app:layout_constraintTop_toBottomOf="@id/upKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.DirectorKey
+        android:id="@+id/rightKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:rotation="90"
+        app:layout_constraintBottom_toTopOf="@id/downKey"
+        app:layout_constraintStart_toEndOf="@id/downKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.RaiseKey
+        android:id="@+id/raiseKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/turnRightKey"
+        app:layout_constraintEnd_toStartOf="@+id/turnRightKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.RaiseKey
+        android:id="@+id/lowerKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:rotationX="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/turnLeftKey"
+        app:layout_constraintTop_toBottomOf="@id/turnLeftKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.TurnKey
+        android:id="@+id/turnLeftKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:rotationY="180"
+        app:layout_constraintEnd_toStartOf="@+id/raiseKey"
+        app:layout_constraintTop_toBottomOf="@id/raiseKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.TurnKey
+        android:id="@+id/turnRightKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/lowerKey"
+        app:layout_constraintStart_toEndOf="@id/lowerKey" />
+
+    <com.honhai.foxconn.tankcrash.ButtonView.FireKey
+        android:id="@+id/fireKey"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/raiseKey"
+        app:layout_constraintBottom_toTopOf="@id/lowerKey"
+        app:layout_constraintStart_toEndOf="@id/turnLeftKey"
+        app:layout_constraintEnd_toStartOf="@id/turnRightKey"/>
+
+</android.support.constraint.ConstraintLayout>
