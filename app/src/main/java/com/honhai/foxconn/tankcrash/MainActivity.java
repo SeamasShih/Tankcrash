@@ -1,5 +1,6 @@
 package com.honhai.foxconn.tankcrash;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements ReceiveListener {
 
             TankClient tankClient =  new TankClient(this, serverIp, port);
             tankClient.sendMessage("from tank client");
+            Intent intent = new Intent();
+            intent.setClass(this,ChoiceActivity.class);
+            startActivity(intent);
         });
     }
 

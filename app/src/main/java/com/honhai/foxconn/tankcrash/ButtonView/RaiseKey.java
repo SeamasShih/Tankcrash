@@ -24,12 +24,6 @@ public class RaiseKey extends View {
     Paint white;
     int d = 10;
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setPath();
-    }
-
     private void setPath() {
         int w = getWidth()/2;
         int h = getHeight()/2;
@@ -37,14 +31,16 @@ public class RaiseKey extends View {
         path.moveTo(-w/2,h/6);
         path.lineTo(0,-h/6);
         path.lineTo(w/2,h/6);
-        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        setPath();
+
         canvas.save();
-        canvas.translate(canvas.getWidth()/2,canvas.getHeight()/2);
+        canvas.translate(getWidth()/2,getHeight()/2);
         canvas.drawPath(path,white);
         canvas.translate(0,d*2);
         canvas.drawPath(path,white);

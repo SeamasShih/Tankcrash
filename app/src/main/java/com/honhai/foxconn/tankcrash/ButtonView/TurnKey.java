@@ -33,11 +33,6 @@ public class TurnKey extends View {
     int d = 10;
     int e = 10;
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setPath();
-    }
 
     private void setPath() {
         int w = getWidth()/2;
@@ -48,14 +43,16 @@ public class TurnKey extends View {
         triangle.lineTo(-w/2,h-e-d);
         triangle.lineTo(0,h-2*(e+d));
         triangle.close();
-        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        setPath();
+
         canvas.save();
-        canvas.translate(canvas.getWidth()/2,canvas.getHeight()/2);
+        canvas.translate(getWidth()/2,getHeight()/2);
         canvas.drawPath(path,white);
         canvas.drawPath(triangle,fill);
         canvas.restore();

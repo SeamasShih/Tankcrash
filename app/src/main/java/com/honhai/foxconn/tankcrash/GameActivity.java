@@ -3,6 +3,7 @@ package com.honhai.foxconn.tankcrash;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -28,7 +29,6 @@ public class GameActivity extends AppCompatActivity {
         findViews();
         inflateButtonView();
         findKeysViews();
-        setSurfaceView();
         setListener();
     }
 
@@ -51,9 +51,6 @@ public class GameActivity extends AppCompatActivity {
         rightKey.setOnClickListener(v -> gameData.getMyself().goRight());
         turnLeftKey.setOnClickListener(v -> gameData.getMyself().getTank().turnGunLeft());
         turnRightKey.setOnClickListener(v -> gameData.getMyself().getTank().turnGunRight());
-    }
-
-    private void setSurfaceView() {
     }
 
     private void inflateButtonView() {

@@ -38,12 +38,6 @@ public class FireKey extends View {
     Paint black;
     int d = 10;
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setPath();
-    }
-
     private void setPath() {
         int w = getWidth()/4;
         int h = getHeight()/4;
@@ -57,15 +51,16 @@ public class FireKey extends View {
         h = getHeight()/4;
         body.reset();
         body.addRect(-w/2,-h,w/2,h*2, Path.Direction.CCW);
-
-        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        setPath();
+
         canvas.save();
-        canvas.translate(canvas.getWidth()/2,canvas.getHeight()/2);
+        canvas.translate(getWidth()/2,getHeight()/2);
         canvas.rotate(-45);
 
         canvas.save();

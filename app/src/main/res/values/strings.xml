@@ -2,4 +2,6 @@
     <string name="app_name">Tankcrash</string>
     <string name="player_name">Name</string>
     <string name="connect">Connect</string>
+    <string name="choose_a_tank">Choose a Tank</string>
+    <string name="Battle">battle !</string>
 </resources>

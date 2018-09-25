@@ -22,12 +22,6 @@ public class DirectorKey extends View {
     Path path;
     Paint white;
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setPath();
-    }
-
     private void setPath() {
         int w = getWidth()/2;
         int h = getHeight()/2;
@@ -37,14 +31,16 @@ public class DirectorKey extends View {
         path.lineTo(w,0);
         path.close();
         path.addRect(-w/3,0,w/3,h, Path.Direction.CCW);
-        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        setPath();
+
         canvas.save();
-        canvas.translate(canvas.getWidth()/2,canvas.getHeight()*2/3);
+        canvas.translate(getWidth()/2,getHeight()*2/3);
         canvas.scale(0.5f,0.9f);
         canvas.drawPath(path,white);
         canvas.restore();

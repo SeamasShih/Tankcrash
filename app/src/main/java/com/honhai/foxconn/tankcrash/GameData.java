@@ -34,6 +34,10 @@ public class GameData {
         return players[myOrder];
     }
 
+    public float[] getMySite(){
+        return getMyself().getSite();
+    }
+
     public static class Map{
         public static Map create(){
             Map mMap = new Map();
