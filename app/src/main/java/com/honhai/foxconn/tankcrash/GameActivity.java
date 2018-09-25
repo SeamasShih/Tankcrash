@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        mainLayout = findViewById(R.id.mainLayout);
+        mainLayout = findViewById(R.id.gameLayout);
         surfaceView = findViewById(R.id.surfaceView);
     }
 }
