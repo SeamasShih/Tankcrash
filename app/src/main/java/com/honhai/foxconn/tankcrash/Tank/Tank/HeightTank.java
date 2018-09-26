@@ -25,7 +25,7 @@ public class HeightTank extends TankPrototype {
     GunPrototype gun = new HeightGun();
     private int gunRotation = 0;
     private int baseRotation = 0;
-    private int l = 2;
+    private float l = 2;
     private int k = 50;
     private Paint paint = new Paint();
     int type = 2;
