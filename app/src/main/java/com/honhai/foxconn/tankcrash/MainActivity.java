@@ -12,9 +12,11 @@ import android.widget.EditText;
 import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
 import com.honhai.foxconn.tankcrash.Network.TankClient;
 
-public class MainActivity extends AppCompatActivity implements ReceiveListener {
+public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
+    public static String serverIp = "192.168.1.37";
+    public static int port = 9487;
     EditText editText;
     Button button;
 
@@ -30,11 +32,7 @@ public class MainActivity extends AppCompatActivity implements ReceiveListener {
     private void setListener() {
         button.setOnClickListener(v -> {
             String s = String.valueOf(editText.getText());
-            String serverIp = "192.168.1.37";
-            int port = 9487;
 
-            TankClient tankClient =  new TankClient(this, serverIp, port);
-            tankClient.sendMessage("from tank client");
             Intent intent = new Intent();
             intent.setClass(this,ChoiceActivity.class);
             startActivity(intent);
@@ -44,10 +42,5 @@ public class MainActivity extends AppCompatActivity implements ReceiveListener {
     private void findViews() {
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.button);
-    }
-
-    @Override
-    public void onMessageReceive(String message) {
-        Log.d(TAG, "onMessageReceive: message : " + message);
     }
 }
