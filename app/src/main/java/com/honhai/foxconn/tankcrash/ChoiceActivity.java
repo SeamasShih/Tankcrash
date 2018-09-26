@@ -36,18 +36,14 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
     private void setTankClient() {
         tankClient = TankClient.getTankClient(this);
-        tankClient.sendMessage("client register");
+        tankClient.sendMessage("cregister");
     }
 
     private void setListener() {
         lightTank.setOnClickListener(v -> lightTank.setBackgroundResource(R.drawable.choice_background));
         button.setOnClickListener(v -> {
-            tankClient.sendMessage();
-
-            //todo Ian sent info to server
-            Intent intent = new Intent();
-            intent.setClass(this,GameActivity.class);
-            startActivity(intent);
+            tankClient.sendMessage("cready" + gameData.getMyOrder());
+            button.setClickable(false);
         });
         textView.setOnClickListener(v -> {
             //todo Ian change player amount by receive from server
@@ -62,6 +58,20 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
     @Override
     public void onMessageReceive(String message) {
-        Log.d(TAG, "onMessageReceive: implement in ChoiceActivity");
+        Log.d(TAG, "onMessageReceive: message : " + message);
+
+        if (message.startsWith("o")) {
+            if (gameData.getMyOrder() == -1) {
+                int order = Character.getNumericValue(message.charAt(1));
+                gameData.setMyOrder(order);
+            }
+
+            String s = getResources().getString(R.string.player) + message.substring(2);
+            runOnUiThread(() -> textView.setText(s));
+        } else if (message.equals("startgame")) {
+            Intent intent = new Intent();
+            intent.setClass(this,GameActivity.class);
+            startActivity(intent);
+        }
     }
 }
