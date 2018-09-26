@@ -12,6 +12,7 @@ import com.honhai.foxconn.tankcrash.ButtonView.FireKey;
 import com.honhai.foxconn.tankcrash.ButtonView.RaiseKey;
 import com.honhai.foxconn.tankcrash.ButtonView.TurnKey;
 import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.Network.ServerClientConstant;
 import com.honhai.foxconn.tankcrash.Network.TankClient;
 
 import java.util.Arrays;
@@ -88,11 +89,18 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     }
 
     private void setClientInfo() {
+        tankClient.sendMessage(ServerClientConstant.CLIENT_INITIAL_DATA);
     }
 
     @Override
     public void onMessageReceive(String message) {
         Log.d(TAG, "onMessageReceive: message : " + message);
 
+        if (message.startsWith(ServerClientConstant.CLIENT_TANK_DATA)) {
+            for (int i = 0; i < gameData.getPlayerAmount(); i++) {
+                int tank = Character.getNumericValue(message.charAt(ServerClientConstant.CLIENT_TANK_DATA.length() + i));
+                gameData.getPlayer(i).setTank(tank);
+            }
+        }
     }
 }

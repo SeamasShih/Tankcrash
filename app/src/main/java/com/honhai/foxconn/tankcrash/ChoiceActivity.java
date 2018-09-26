@@ -14,6 +14,7 @@ import com.honhai.foxconn.tankcrash.ChoiceView.HeavyTank;
 import com.honhai.foxconn.tankcrash.ChoiceView.LightTank;
 import com.honhai.foxconn.tankcrash.ChoiceView.HeightTank;
 import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.Network.ServerClientConstant;
 import com.honhai.foxconn.tankcrash.Network.TankClient;
 
 public class ChoiceActivity extends AppCompatActivity implements ReceiveListener {
@@ -41,7 +42,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
     private void setTankClient() {
         tankClient = TankClient.getTankClient(this);
-        tankClient.sendMessage("cregister");
+        tankClient.sendMessage(ServerClientConstant.CLIENT_REGISTER);
     }
 
     private void setListener() {
@@ -64,11 +65,8 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
             tank = 2;
         });
         button.setOnClickListener(v -> {
-            tankClient.sendMessage("cready" + gameData.getMyOrder());
+            tankClient.sendMessage(ServerClientConstant.CLIENT_READY + gameData.getMyOrder() + tank);
             button.setClickable(false);
-        });
-        textView.setOnClickListener(v -> {
-            //todo Ian change player amount by receive from server
         });
     }
 
@@ -82,9 +80,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
     @Override
     public void onMessageReceive(String message) {
-        Log.d(TAG, "onMessageReceive: message : " + message);
-
-        if (message.startsWith("o")) {
+        if (message.startsWith(ServerClientConstant.CLIENT_ORDER)) {
             if (gameData.getMyOrder() == -1) {
                 int order = Character.getNumericValue(message.charAt(1));
                 gameData.setMyOrder(order);
@@ -92,7 +88,10 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
             String s = getResources().getString(R.string.player) + message.substring(2);
             runOnUiThread(() -> textView.setText(s));
-        } else if (message.equals("startgame")) {
+        } else if (message.startsWith(ServerClientConstant.SERVER_START_GAME)) {
+            gameData.setPlayerAmount(
+                    Character.getNumericValue(message.charAt(ServerClientConstant.SERVER_START_GAME.length())));
+
             Intent intent = new Intent();
             intent.setClass(this,GameActivity.class);
             startActivity(intent);
