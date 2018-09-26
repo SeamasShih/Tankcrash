@@ -9,11 +9,15 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.honhai.foxconn.tankcrash.ChoiceView.HeavyTank;
 import com.honhai.foxconn.tankcrash.ChoiceView.LightTank;
+import com.honhai.foxconn.tankcrash.ChoiceView.HeightTank;
 
 public class ChoiceActivity extends AppCompatActivity {
 
     LightTank lightTank;
+    HeavyTank heavyTank;
+    HeightTank heightTank;
     Button button;
     TextView textView;
     GameData gameData = GameData.getInstance();
@@ -28,7 +32,21 @@ public class ChoiceActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        lightTank.setOnClickListener(v -> lightTank.setBackgroundResource(R.drawable.choice_background));
+        lightTank.setOnClickListener(v -> {
+            v.setBackgroundResource(R.drawable.choice_background);
+            heavyTank.setBackground(null);
+            heightTank.setBackground(null);
+        });
+        heavyTank.setOnClickListener(v -> {
+            v.setBackgroundResource(R.drawable.choice_background);
+            lightTank.setBackground(null);
+            heightTank.setBackground(null);
+        });
+        heightTank.setOnClickListener(v -> {
+            v.setBackgroundResource(R.drawable.choice_background);
+            lightTank.setBackground(null);
+            heavyTank.setBackground(null);
+        });
         button.setOnClickListener(v -> {
             //todo Ian sent info to server
             Intent intent = new Intent();
@@ -42,6 +60,8 @@ public class ChoiceActivity extends AppCompatActivity {
 
     private void findViews() {
         lightTank = findViewById(R.id.lightTank);
+        heavyTank = findViewById(R.id.heavyTank);
+        heightTank = findViewById(R.id.heightTank);
         button = findViewById(R.id.battle);
         textView = findViewById(R.id.text);
     }
