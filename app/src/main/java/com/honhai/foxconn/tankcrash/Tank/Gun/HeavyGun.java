@@ -5,13 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
-import android.util.Log;
 
 import com.honhai.foxconn.tankcrash.Tank.Prototype.GunPrototype;
 
-public class LightGun extends GunPrototype{
-
-    public LightGun(){
+public class HeavyGun extends GunPrototype {
+    public HeavyGun(){
         recording();
     }
 
@@ -24,12 +22,19 @@ public class LightGun extends GunPrototype{
         paint.setColor(Color.rgb(0x20,0x6b,0x20));
         paint.setAntiAlias(true);
 
-        int r = 15;
+        int w = 20;
+        int h = (int) (w/2*1.732);
         int l = 5;
 
         Path path = new Path();
-        path.addCircle(0,0,r,Path.Direction.CCW);
-        path.addRect(-l,-30,l,0, Path.Direction.CCW);
+        path.moveTo(-w,0);
+        path.lineTo(-w/2,h);
+        path.lineTo(w/2,h);
+        path.lineTo(w,0);
+        path.lineTo(w/2,-h);
+        path.lineTo(-w/2,-h);
+        path.close();
+        path.addRect(-l,-50,l,0, Path.Direction.CCW);
 
         canvas.translate(50,50);
         canvas.drawPath(path,paint);
