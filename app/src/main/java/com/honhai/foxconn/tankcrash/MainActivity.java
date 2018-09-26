@@ -15,7 +15,7 @@ import com.honhai.foxconn.tankcrash.Network.TankClient;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
-    public static String serverIp = "192.168.1.82";
+    public static String serverIp = "192.168.1.37";
     public static int port = 9487;
     EditText editText;
     Button button;

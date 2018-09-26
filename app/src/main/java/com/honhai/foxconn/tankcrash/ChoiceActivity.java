@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +12,7 @@ import com.honhai.foxconn.tankcrash.ChoiceView.HeavyTank;
 import com.honhai.foxconn.tankcrash.ChoiceView.LightTank;
 import com.honhai.foxconn.tankcrash.ChoiceView.HeightTank;
 import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
-import com.honhai.foxconn.tankcrash.Network.ServerClientConstant;
+import com.honhai.foxconn.tankcrash.Network.SerCliConstant;
 import com.honhai.foxconn.tankcrash.Network.TankClient;
 
 public class ChoiceActivity extends AppCompatActivity implements ReceiveListener {
@@ -42,7 +40,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
     private void setTankClient() {
         tankClient = TankClient.getTankClient(this);
-        tankClient.sendMessage(ServerClientConstant.CLIENT_REGISTER);
+        tankClient.sendMessage(SerCliConstant.CLI_REGISTER);
     }
 
     private void setListener() {
@@ -65,7 +63,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
             tank = 2;
         });
         button.setOnClickListener(v -> {
-            tankClient.sendMessage(ServerClientConstant.CLIENT_READY + gameData.getMyOrder() + tank);
+            tankClient.sendMessage(SerCliConstant.CLI_READY + gameData.getMyOrder() + tank);
             button.setClickable(false);
         });
     }
@@ -80,7 +78,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
     @Override
     public void onMessageReceive(String message) {
-        if (message.startsWith(ServerClientConstant.CLIENT_ORDER)) {
+        if (message.startsWith(SerCliConstant.CLI_ORDER)) {
             if (gameData.getMyOrder() == -1) {
                 int order = Character.getNumericValue(message.charAt(1));
                 gameData.setMyOrder(order);
@@ -88,9 +86,9 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
             String s = getResources().getString(R.string.player) + message.substring(2);
             runOnUiThread(() -> textView.setText(s));
-        } else if (message.startsWith(ServerClientConstant.SERVER_START_GAME)) {
+        } else if (message.startsWith(SerCliConstant.SER_START_GAME)) {
             gameData.setPlayerAmount(
-                    Character.getNumericValue(message.charAt(ServerClientConstant.SERVER_START_GAME.length())));
+                    Character.getNumericValue(message.charAt(SerCliConstant.SER_START_GAME.length())));
 
             Intent intent = new Intent();
             intent.setClass(this,GameActivity.class);

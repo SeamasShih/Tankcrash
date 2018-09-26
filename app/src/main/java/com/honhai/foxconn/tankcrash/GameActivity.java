@@ -12,12 +12,13 @@ import com.honhai.foxconn.tankcrash.ButtonView.FireKey;
 import com.honhai.foxconn.tankcrash.ButtonView.RaiseKey;
 import com.honhai.foxconn.tankcrash.ButtonView.TurnKey;
 import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
-import com.honhai.foxconn.tankcrash.Network.ServerClientConstant;
+import com.honhai.foxconn.tankcrash.Network.SerCliConstant;
 import com.honhai.foxconn.tankcrash.Network.TankClient;
 import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
 import com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank;
 
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class GameActivity extends AppCompatActivity implements ReceiveListener {
     private final String TAG = "GameActivity";
@@ -45,8 +46,8 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
 
     private void setTankKey() {
         TankPrototype tank = gameData.getMyself().getTank();
-        if (tank != null){
-            switch (tank.getType()){
+        if (tank != null) {
+            switch (tank.getType()) {
                 case 0:
                 case 1:
                     raiseKey.setVisibility(View.INVISIBLE);
@@ -81,27 +82,27 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     private void setListener() {
         upKey.setOnClickListener(v -> {
             gameData.getMyself().goUp();
-            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         downKey.setOnClickListener(v -> {
             gameData.getMyself().goDown();
-            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         leftKey.setOnClickListener(v -> {
             gameData.getMyself().goLeft();
-            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         rightKey.setOnClickListener(v -> {
             gameData.getMyself().goRight();
-            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         turnLeftKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunLeft();
-            tankClient.sendMessage(gameData.getMyOrder() + "d" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(SerCliConstant.CLI_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
         });
         turnRightKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunRight();
-            tankClient.sendMessage(gameData.getMyOrder() + "d" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(SerCliConstant.CLI_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
         });
     }
 
@@ -115,18 +116,25 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     }
 
     private void setClientInfo() {
-        tankClient.sendMessage(ServerClientConstant.CLIENT_INITIAL_DATA);
+        tankClient.sendMessage(SerCliConstant.CLI_INITIAL_TANK_DATA);
     }
 
     @Override
     public void onMessageReceive(String message) {
         Log.d(TAG, "onMessageReceive: message : " + message);
 
-        if (message.startsWith(ServerClientConstant.CLIENT_TANK_DATA)) {
+        if (message.startsWith(SerCliConstant.CLI_INITIAL_TANK_DATA)) {
             for (int i = 0; i < gameData.getPlayerAmount(); i++) {
-                int tank = Character.getNumericValue(message.charAt(ServerClientConstant.CLIENT_TANK_DATA.length() + i));
+                int tank = Character.getNumericValue(message.charAt(SerCliConstant.CLI_INITIAL_TANK_DATA.length() + i));
                 gameData.getPlayer(i).setTank(tank);
             }
+        } else if (message.startsWith(SerCliConstant.CLI_TANK_SITE)) {
+            StringTokenizer tokenizer = new StringTokenizer(message, " ");
+
+            int order = Character.getNumericValue(tokenizer.nextToken().charAt(SerCliConstant.CLI_TANK_SITE.length()));
+            float x = Float.valueOf(tokenizer.nextToken());
+            float y = Float.valueOf(tokenizer.nextToken());
+            gameData.setTankSite(order, x, y);
         }
     }
 }
