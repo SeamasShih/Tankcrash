@@ -100,12 +100,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void drawTank(){
-        TankPrototype tank = gameData.getMyself().getTank();
-        tank.draw(mCanvas,0,0,interval,interval);
-//        if (gameData.getPlayerAmount() > 0){
-//            for (Player p : gameData.getPlayers())
-//                p.getTank().draw(mCanvas,p.getSite()[0],p.getSite()[1],interval,interval);
-//        }
+        if (gameData.getPlayerAmount() > 0){
+            for (Player p : gameData.getPlayers())
+                p.getTank().draw(mCanvas,p.getSite()[0],p.getSite()[1],interval,interval);
+        }
     }
 
     private void drawArtilleryShell(){

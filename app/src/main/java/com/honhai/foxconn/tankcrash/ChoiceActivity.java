@@ -26,6 +26,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
     HeightTank heightTank;
     Button button;
     TextView textView;
+    int tank = -1; // light = 0 , heavy = 1 , height = 2
     GameData gameData = GameData.getInstance();
 
     @Override
@@ -48,16 +49,19 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
             v.setBackgroundResource(R.drawable.choice_background);
             heavyTank.setBackground(null);
             heightTank.setBackground(null);
+            tank = 0;
         });
         heavyTank.setOnClickListener(v -> {
             v.setBackgroundResource(R.drawable.choice_background);
             lightTank.setBackground(null);
             heightTank.setBackground(null);
+            tank = 1;
         });
         heightTank.setOnClickListener(v -> {
             v.setBackgroundResource(R.drawable.choice_background);
             lightTank.setBackground(null);
             heavyTank.setBackground(null);
+            tank = 2;
         });
         button.setOnClickListener(v -> {
             tankClient.sendMessage("cready" + gameData.getMyOrder());
