@@ -18,6 +18,7 @@ public class GameData {
     private int playerAmount = 0;
     private int myOrder = 0;
     private Player[] players;
+    private Player mine = new Player(99);
     public Map map;
 
     public int getPlayerAmount() {
@@ -64,7 +65,8 @@ public class GameData {
     }
 
     public Player getMyself() {
-        return players[myOrder];
+//        return players[myOrder];
+        return mine;
     }
 
     public float[] getMySite(){
