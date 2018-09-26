@@ -16,6 +16,7 @@ public class ChoiceActivity extends AppCompatActivity {
     LightTank lightTank;
     Button button;
     TextView textView;
+    GameData gameData = GameData.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
