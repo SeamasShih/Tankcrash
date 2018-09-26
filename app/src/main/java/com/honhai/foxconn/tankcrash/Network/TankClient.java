@@ -15,13 +15,12 @@ public class TankClient {
     private final String TAG = "TankClient";
 
     private static TankClient tankClient;
+    private static ReceiveListener receiveListener;
     private DatagramSocket socket;
     private InetAddress address;
-    private ReceiveListener receiveListener;
     private int port;
 
-    private TankClient(Object object, String ip, int port) {
-        receiveListener = (ReceiveListener) object;
+    private TankClient(String ip, int port) {
         this.port = port;
 
         try {
@@ -35,8 +34,9 @@ public class TankClient {
 
     public static TankClient getTankClient(Object object) {
         if (tankClient == null) {
-            tankClient = new TankClient(object, MainActivity.serverIp, MainActivity.port);
+            tankClient = new TankClient(MainActivity.serverIp, MainActivity.port);
         }
+        receiveListener = (ReceiveListener) object;
         return tankClient;
     }
 

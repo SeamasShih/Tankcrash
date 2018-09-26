@@ -88,15 +88,11 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     }
 
     private void setClientInfo() {
-        tankClient.sendMessage("client register");
     }
 
     @Override
     public void onMessageReceive(String message) {
         Log.d(TAG, "onMessageReceive: message : " + message);
-        if (message.startsWith("o")) {
-            int order = Character.getNumericValue(message.charAt(1));
-            gameData.setMyOrder(order);
-        }
+
     }
 }

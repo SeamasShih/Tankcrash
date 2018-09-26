@@ -16,7 +16,7 @@ public class GameData {
 
     private static GameData instance = new GameData() ;
     private int playerAmount = 0;
-    private int myOrder = 0;
+    private int myOrder = -1;
     private Player[] players;
     private Player mine = new Player(99);
     public Map map;
