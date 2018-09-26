@@ -36,6 +36,7 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
         inflateButtonView();
         findKeysViews();
         setListener();
+        setClientInfo();
     }
 
     private void findKeysViews() {
@@ -53,27 +54,27 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     private void setListener() {
         upKey.setOnClickListener(v -> {
             gameData.getMyself().goUp();
-            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
         });
         downKey.setOnClickListener(v -> {
             gameData.getMyself().goDown();
-            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
         });
         leftKey.setOnClickListener(v -> {
             gameData.getMyself().goLeft();
-            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
         });
         rightKey.setOnClickListener(v -> {
             gameData.getMyself().goRight();
-            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(gameData.getMyOrder() + "s" + Arrays.toString(gameData.getMySite()));
         });
         turnLeftKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunLeft();
-            tankClient.sendMessage("d:" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(gameData.getMyOrder() + "d" + Arrays.toString(gameData.getMySite()));
         });
         turnRightKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunRight();
-            tankClient.sendMessage("d:" + Arrays.toString(gameData.getMySite()));
+            tankClient.sendMessage(gameData.getMyOrder() + "d" + Arrays.toString(gameData.getMySite()));
         });
     }
 
@@ -86,8 +87,16 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
         surfaceView = findViewById(R.id.surfaceView);
     }
 
+    private void setClientInfo() {
+        tankClient.sendMessage("client register");
+    }
+
     @Override
     public void onMessageReceive(String message) {
         Log.d(TAG, "onMessageReceive: message : " + message);
+        if (message.startsWith("o")) {
+            int order = Character.getNumericValue(message.charAt(1));
+            gameData.setMyOrder(order);
+        }
     }
 }

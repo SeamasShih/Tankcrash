@@ -1,6 +1,6 @@
 package com.honhai.foxconn.tankcrash.Network;
 
-import android.content.Context;
+import android.util.Log;
 
 import com.honhai.foxconn.tankcrash.MainActivity;
 
@@ -12,6 +12,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class TankClient {
+    private final String TAG = "TankClient";
+
     private static TankClient tankClient;
     private DatagramSocket socket;
     private InetAddress address;
@@ -25,6 +27,7 @@ public class TankClient {
         try {
             socket = new DatagramSocket();
             address = InetAddress.getByName(ip);
+            startReceiveMessage();
         } catch (SocketException | UnknownHostException e) {
             e.printStackTrace();
         }
@@ -37,24 +40,38 @@ public class TankClient {
         return tankClient;
     }
 
+    private void startReceiveMessage() {
+        byte[] receiveBuffer = new byte[512];
+
+        new Thread(() -> {
+            while (true) {
+                String returnString;
+                DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+                try {
+                    socket.receive(packet);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                returnString = new String(packet.getData(), 0, packet.getLength());
+                receiveListener.onMessageReceive(returnString);
+
+                if (returnString.equals("end")) {
+                    break;
+                }
+            }
+        }).start();
+    }
+
     public void sendMessage(String message) {
         new Thread(() -> {
-            String returnString;
             try {
                 byte[] sendBuffer = message.toLowerCase().getBytes();
-                byte[] receiveBuffer = new byte[512];
 
                 DatagramPacket packet = new DatagramPacket(sendBuffer, sendBuffer.length, address, port);
                 socket.send(packet);
-
-                packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-                socket.receive(packet);
-                returnString = new String(packet.getData(), 0, packet.getLength());
             } catch (IOException e) {
                 e.printStackTrace();
-                returnString = "Exception happen";
             }
-            receiveListener.onMessageReceive(returnString);
 
             if (message.equals("end")) {
                 closeSocket();
