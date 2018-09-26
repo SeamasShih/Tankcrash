@@ -1,13 +1,14 @@
 package com.honhai.foxconn.tankcrash;
 
 import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.Tank.Tank.HeavyTank;
+import com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank;
 import com.honhai.foxconn.tankcrash.Tank.Tank.LightTank;
 
 public class Player {
 
     public Player(int order){
         this.order = order;
-        setTank(new LightTank());
     }
 
     private int order;

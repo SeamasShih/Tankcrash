@@ -21,6 +21,11 @@ public class LightTank extends TankPrototype{
     GunPrototype gun = new LightGun();
     private int gunRotation = 0;
     private int baseRotation = 0;
+    int type = 0;
+
+    public int getType() {
+        return type;
+    }
 
     public void turnBaseRight() {
         baseRotation = (baseRotation +90) % 360;

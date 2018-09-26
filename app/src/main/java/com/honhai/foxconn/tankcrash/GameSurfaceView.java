@@ -100,6 +100,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void drawTank(){
+        Player player = gameData.getMyself();
+        player.getTank().draw(mCanvas,player.getSite()[0],player.getSite()[1],interval,interval);
         if (gameData.getPlayerAmount() > 0){
             for (Player p : gameData.getPlayers())
                 p.getTank().draw(mCanvas,p.getSite()[0],p.getSite()[1],interval,interval);
