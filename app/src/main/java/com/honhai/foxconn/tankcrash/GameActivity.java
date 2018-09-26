@@ -88,7 +88,6 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     }
 
     private void setClientInfo() {
-        tankClient.sendMessage("client register");
     }
 
     @Override
