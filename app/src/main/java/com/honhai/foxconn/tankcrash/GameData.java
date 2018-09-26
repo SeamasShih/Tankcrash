@@ -4,7 +4,7 @@ public class GameData {
 
     private GameData(){
         map = Map.create();
-        for (int i = 0 ; i < playAmount ; i++){
+        for (int i = 0; i < playerAmount; i++){
             players[i] = new Player(i);
         }
     }
@@ -15,19 +15,52 @@ public class GameData {
     }
 
     private static GameData instance = new GameData() ;
-    private int playAmount = 2;
+    private int playerAmount = 0;
     private int myOrder = 0;
-    private Player[] players = new Player[4];
-    private Player player = new Player(0);
+    private Player[] players;
     public Map map;
 
+    public int getPlayerAmount() {
+        return playerAmount;
+    }
+
     public float[] getTankSite(){
-        float[] floats = new float[playAmount-1];
-        for (int i = 0 ; i < playAmount ; i++){
+        float[] floats = new float[playerAmount -1];
+        for (int i = 0; i < playerAmount; i++){
             floats[i*2] = players[i].getSite()[0];
             floats[i*2+1] = players[i].getSite()[1];
         }
         return floats;
+    }
+
+    public void setTankSite(int order , int x , int y){
+        players[order].setSite(x,y);
+    }
+
+    public void setMyOrder(int myOrder) {
+        this.myOrder = myOrder;
+    }
+
+    public int getMyOrder() {
+        return myOrder;
+    }
+
+    public Player[] getPlayers(){
+        return players;
+    }
+
+    public void setPlayerAmount(int playerAmount) {
+        this.playerAmount = playerAmount;
+        players = new Player[playerAmount];
+        for (int i = 0 ; i < playerAmount ; i++){
+            players[i] = new Player(i);
+        }
+    }
+
+    public Player getPlayer(int order){
+        if (order > playerAmount + 1)
+            return null;
+        return players[order];
     }
 
     public Player getMyself() {
