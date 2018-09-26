@@ -11,21 +11,27 @@ import com.honhai.foxconn.tankcrash.ButtonView.DirectorKey;
 import com.honhai.foxconn.tankcrash.ButtonView.FireKey;
 import com.honhai.foxconn.tankcrash.ButtonView.RaiseKey;
 import com.honhai.foxconn.tankcrash.ButtonView.TurnKey;
+import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.Network.TankClient;
 
-public class GameActivity extends AppCompatActivity {
+import java.util.Arrays;
+
+public class GameActivity extends AppCompatActivity implements ReceiveListener {
+    private final String TAG = "GameActivity";
     GameSurfaceView surfaceView;
     ConstraintLayout mainLayout;
     DirectorKey upKey, downKey, leftKey, rightKey;
     FireKey fireKey;
     RaiseKey raiseKey, lowerKey;
-    TurnKey turnLeftKey , turnRightKey;
+    TurnKey turnLeftKey, turnRightKey;
     GameData gameData = GameData.getInstance();
+    TankClient tankClient = TankClient.getTankClient(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_layout);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         findViews();
         inflateButtonView();
         findKeysViews();
@@ -45,20 +51,43 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        upKey.setOnClickListener(v -> gameData.getMyself().goUp());
-        downKey.setOnClickListener(v -> gameData.getMyself().goDown());
-        leftKey.setOnClickListener(v -> gameData.getMyself().goLeft());
-        rightKey.setOnClickListener(v -> gameData.getMyself().goRight());
-        turnLeftKey.setOnClickListener(v -> gameData.getMyself().getTank().turnGunLeft());
-        turnRightKey.setOnClickListener(v -> gameData.getMyself().getTank().turnGunRight());
+        upKey.setOnClickListener(v -> {
+            gameData.getMyself().goUp();
+            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+        });
+        downKey.setOnClickListener(v -> {
+            gameData.getMyself().goDown();
+            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+        });
+        leftKey.setOnClickListener(v -> {
+            gameData.getMyself().goLeft();
+            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+        });
+        rightKey.setOnClickListener(v -> {
+            gameData.getMyself().goRight();
+            tankClient.sendMessage("s:" + Arrays.toString(gameData.getMySite()));
+        });
+        turnLeftKey.setOnClickListener(v -> {
+            gameData.getMyself().getTank().turnGunLeft();
+            tankClient.sendMessage("d:" + Arrays.toString(gameData.getMySite()));
+        });
+        turnRightKey.setOnClickListener(v -> {
+            gameData.getMyself().getTank().turnGunRight();
+            tankClient.sendMessage("d:" + Arrays.toString(gameData.getMySite()));
+        });
     }
 
     private void inflateButtonView() {
-        View.inflate(this,R.layout.game_button_layout,mainLayout);
+        View.inflate(this, R.layout.game_button_layout, mainLayout);
     }
 
     private void findViews() {
         mainLayout = findViewById(R.id.gameLayout);
         surfaceView = findViewById(R.id.surfaceView);
+    }
+
+    @Override
+    public void onMessageReceive(String message) {
+        Log.d(TAG, "onMessageReceive: message : " + message);
     }
 }

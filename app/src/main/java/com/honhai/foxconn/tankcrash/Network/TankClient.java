@@ -12,13 +12,14 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class TankClient {
+    private static TankClient tankClient;
     private DatagramSocket socket;
     private InetAddress address;
     private ReceiveListener receiveListener;
     private int port;
 
-    public TankClient(Context context, String ip, int port) {
-        receiveListener = (ReceiveListener) context;
+    private TankClient(Object object, String ip, int port) {
+        receiveListener = (ReceiveListener) object;
         this.port = port;
 
         try {
@@ -29,16 +30,24 @@ public class TankClient {
         }
     }
 
+    public static TankClient getTankClient(Object object) {
+        if (tankClient == null) {
+            tankClient = new TankClient(object, MainActivity.serverIp, MainActivity.port);
+        }
+        return tankClient;
+    }
+
     public void sendMessage(String message) {
         new Thread(() -> {
             String returnString;
             try {
-                byte[] receiveBuffer = message.toLowerCase().getBytes();
-                byte[] sendBuffer = new byte[1024];
+                byte[] sendBuffer = message.toLowerCase().getBytes();
+                byte[] receiveBuffer = new byte[512];
 
-                DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length, address, port);
+                DatagramPacket packet = new DatagramPacket(sendBuffer, sendBuffer.length, address, port);
                 socket.send(packet);
-                packet = new DatagramPacket(sendBuffer, sendBuffer.length);
+
+                packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 socket.receive(packet);
                 returnString = new String(packet.getData(), 0, packet.getLength());
             } catch (IOException e) {
