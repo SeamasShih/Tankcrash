@@ -9,7 +9,6 @@ public class Player {
 
     public Player(int order){
         this.order = order;
-        setTank(new LightTank());
     }
 
     private int order;

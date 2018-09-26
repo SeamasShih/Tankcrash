@@ -25,13 +25,28 @@ public class HeightTank extends TankPrototype {
     GunPrototype gun = new HeightGun();
     private int gunRotation = 0;
     private int baseRotation = 0;
-    private int l = 2;
+    private float l = 2;
     private int k = 50;
     private Paint paint = new Paint();
+    int type = 2;
 
-    public void setGunlength(int k) {
-        if (k >= 20 && k <=50)
-            this.k = k;
+    public int getType() {
+        return type;
+    }
+
+    public void raiseGun() {
+        if (k >= 50){
+            k = 50;
+            return;
+        }
+        k+=5;
+    }
+    public void lowerGun() {
+        if (k <= 20){
+            k = 20;
+            return;
+        }
+        k-=5;
     }
 
     public int getGunLength() {

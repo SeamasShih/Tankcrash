@@ -3,6 +3,8 @@ package com.honhai.foxconn.tankcrash.Tank.Prototype;
 import android.graphics.Canvas;
 
 public abstract class TankPrototype {
+    abstract public int getType();
+
     abstract public void turnBaseRight();
 
     abstract public void turnBaseLeft();

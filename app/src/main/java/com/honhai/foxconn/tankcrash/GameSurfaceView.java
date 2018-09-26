@@ -26,6 +26,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private Canvas mCanvas;
     private boolean mIsDrawing;
     private int interval = 120;
+    float x;
+    float y;
     GameData gameData = GameData.getInstance();
 
     private void initial() {
@@ -64,6 +66,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         try {
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.translate(mCanvas.getWidth()/2,mCanvas.getHeight()/2);
+            x = gameData.getMyself().getSite()[0];
+            y = gameData.getMyself().getSite()[1];
+
             drawMap();
             drawTank();
             drawArtilleryShell();
@@ -78,8 +83,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void drawMap() {
-        float x = gameData.getMyself().getSite()[0];
-        float y = gameData.getMyself().getSite()[1];
         mCanvas.save();
         mCanvas.translate(x*interval,y*interval);
         //todo draw map
@@ -102,7 +105,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private void drawTank(){
         if (gameData.getPlayerAmount() > 0){
             for (Player p : gameData.getPlayers())
-                p.getTank().draw(mCanvas,p.getSite()[0],p.getSite()[1],interval,interval);
+                p.getTank().draw(mCanvas,(p.getSite()[0]-x)*interval,(p.getSite()[1]-y)*interval,interval,interval);
         }
     }
 

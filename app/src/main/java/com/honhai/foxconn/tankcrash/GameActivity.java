@@ -14,6 +14,8 @@ import com.honhai.foxconn.tankcrash.ButtonView.TurnKey;
 import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
 import com.honhai.foxconn.tankcrash.Network.ServerClientConstant;
 import com.honhai.foxconn.tankcrash.Network.TankClient;
+import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank;
 
 import java.util.Arrays;
 
@@ -36,8 +38,32 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
         findViews();
         inflateButtonView();
         findKeysViews();
+        setTankKey();
         setListener();
         setClientInfo();
+    }
+
+    private void setTankKey() {
+        TankPrototype tank = gameData.getMyself().getTank();
+        if (tank != null){
+            switch (tank.getType()){
+                case 0:
+                case 1:
+                    raiseKey.setVisibility(View.INVISIBLE);
+                    lowerKey.setVisibility(View.INVISIBLE);
+                    break;
+                case 2:
+                    raiseKey.setOnClickListener(v -> {
+                        ((HeightTank) gameData.getMyself().getTank()).raiseGun();
+                        //todo Ian send to server some data
+                    });
+                    lowerKey.setOnClickListener(v -> {
+                        ((HeightTank) gameData.getMyself().getTank()).lowerGun();
+                        //todo Ian send to server some data
+                    });
+                    break;
+            }
+        }
     }
 
     private void findKeysViews() {
