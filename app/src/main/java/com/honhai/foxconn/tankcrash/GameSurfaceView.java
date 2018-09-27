@@ -1,20 +1,16 @@
 package com.honhai.foxconn.tankcrash;
 
 import android.content.Context;
-import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
-import com.honhai.foxconn.tankcrash.Tank.Tank.LightTank;
+import java.util.ArrayList;
 
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
     public GameSurfaceView(Context context, AttributeSet attrs) {
@@ -71,7 +67,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
             drawMap();
             drawTank();
-            drawArtilleryShell();
+            drawBullet();
             drawFog();
         }catch (Exception e){
             e.printStackTrace();
@@ -84,10 +80,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private void drawMap() {
         mCanvas.save();
-        mCanvas.translate(x*interval,y*interval);
         //todo draw map
         mCanvas.drawColor(Color.WHITE);
-        mCanvas.drawCircle(0,0,50,new Paint());
         mCanvas.restore();
     }
 
@@ -109,7 +103,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    private void drawArtilleryShell(){
-
+    private void drawBullet(){
+        ArrayList<Bullet> b = gameData.getBullet();
+        if (b.size() != 0){
+            b.forEach(bullet -> bullet.draw(mCanvas,(bullet.getX()-x)*interval,(bullet.getY()-y)*interval,interval,interval));
+        }
     }
 }

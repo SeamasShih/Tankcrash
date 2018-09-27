@@ -1,4 +1,4 @@
-package com.honhai.foxconn.tankcrash.Tank.Base;
+package com.honhai.foxconn.tankcrash.TankDrawable.Base;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
 
-import com.honhai.foxconn.tankcrash.Tank.Prototype.BasePrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.BasePrototype;
 
 public class HeightBase extends BasePrototype {
 

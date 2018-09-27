@@ -9,10 +9,10 @@ import android.view.View;
 public class HeightTank extends View {
     public HeightTank(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        tank = new com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank();
+        tank = new com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeightTank();
     }
 
-    com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank tank;
+    com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeightTank tank;
 
     @Override
     protected void onDraw(Canvas canvas) {

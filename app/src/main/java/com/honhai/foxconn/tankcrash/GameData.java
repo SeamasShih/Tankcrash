@@ -1,5 +1,9 @@
 package com.honhai.foxconn.tankcrash;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+
 public class GameData {
 
     private GameData() {
@@ -18,8 +22,35 @@ public class GameData {
     private int playerAmount = 0;
     private int myOrder = -1;
     private Player[] players;
-    private Player mine = new Player(99);
+    private ArrayList<Bullet> bullets = new ArrayList<>();
     public Map map;
+
+    public boolean addBullet(int order , float x , float y){
+        for (int i = 0; i < bullets.size(); i++) {
+            if (bullets.get(i).getOrder() == order) {
+                return false;
+            }
+        }
+        bullets.add(new Bullet(order,x,y));
+        return true;
+    }
+
+    public void removeBullet(int order) {
+        for (int i = 0; i < bullets.size(); i++) {
+            if (bullets.get(i).getOrder() == order) {
+                bullets.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void shoot(int order,float x,float y){
+        addBullet(order,x,y);
+    }
+
+    public ArrayList<Bullet> getBullet(){
+        return bullets;
+    }
 
     public int getPlayerAmount() {
         return playerAmount;
@@ -69,8 +100,7 @@ public class GameData {
     }
 
     public Player getMyself() {
-//        return players[myOrder];
-        return mine;
+        return players[myOrder];
     }
 
     public float[] getMySite() {

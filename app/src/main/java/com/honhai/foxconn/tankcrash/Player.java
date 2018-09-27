@@ -1,9 +1,11 @@
 package com.honhai.foxconn.tankcrash;
 
-import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
-import com.honhai.foxconn.tankcrash.Tank.Tank.HeavyTank;
-import com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank;
-import com.honhai.foxconn.tankcrash.Tank.Tank.LightTank;
+import android.util.Log;
+
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeavyTank;
+import com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeightTank;
+import com.honhai.foxconn.tankcrash.TankDrawable.Tank.LightTank;
 
 public class Player {
 
@@ -45,7 +47,6 @@ public class Player {
         this.tank = tank;
     }
 
-
     public void setTank(int tank) {
         switch (tank) {
             case 0:
@@ -61,18 +62,18 @@ public class Player {
     }
 
     public void goUp(){
-        site[1]++;
-    }
-
-    public void goDown(){
         site[1]--;
     }
 
+    public void goDown(){
+        site[1]++;
+    }
+
     public void goLeft(){
-        site[0]++;
+        site[0]--;
     }
 
     public void goRight(){
-        site[0]--;
+        site[0]++;
     }
 }

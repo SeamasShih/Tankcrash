@@ -1,27 +1,20 @@
-package com.honhai.foxconn.tankcrash.Tank.Tank;
+package com.honhai.foxconn.tankcrash.TankDrawable.Tank;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
-import com.honhai.foxconn.tankcrash.Tank.Base.LightBase;
-import com.honhai.foxconn.tankcrash.Tank.Gun.LightGun;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.BasePrototype;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.GunPrototype;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Base.HeavyBase;
+import com.honhai.foxconn.tankcrash.TankDrawable.Gun.HeavyGun;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.BasePrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.GunPrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.TankPrototype;
 
-public class LightTank extends TankPrototype{
-    public LightTank() {
-
-    }
-
-    BasePrototype base = new LightBase();
-    GunPrototype gun = new LightGun();
+public class HeavyTank extends TankPrototype {
+    BasePrototype base = new HeavyBase();
+    GunPrototype gun = new HeavyGun();
     private int gunRotation = 0;
     private int baseRotation = 0;
-    int type = 0;
+    int type = 1;
 
     public int getType() {
         return type;
@@ -61,5 +54,4 @@ public class LightTank extends TankPrototype{
         canvas.drawPicture(gun.getPicture(), new RectF(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2));
         canvas.restore();
     }
-
 }

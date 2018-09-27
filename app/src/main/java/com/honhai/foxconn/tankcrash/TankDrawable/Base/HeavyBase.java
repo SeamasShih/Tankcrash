@@ -1,21 +1,16 @@
-package com.honhai.foxconn.tankcrash.Tank.Base;
+package com.honhai.foxconn.tankcrash.TankDrawable.Base;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
-import android.util.Log;
 
-import com.honhai.foxconn.tankcrash.R;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.BasePrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.BasePrototype;
 
-public class LightBase extends BasePrototype{
+public class HeavyBase extends BasePrototype {
 
-    public LightBase(){
+    public HeavyBase(){
         recording();
     }
 
@@ -28,15 +23,18 @@ public class LightBase extends BasePrototype{
         paint.setColor(Color.rgb(0x15,0x4b,0x14));
         paint.setAntiAlias(true);
 
-        int h = 30;
-        int w = 27;
-
         Path path = new Path();
-        path.addRect(-w,-h,w,h, Path.Direction.CCW);
-        path.addRect(-15,-h,15,-22,Path.Direction.CW);
-        path.addRect(-15,22,15,h,Path.Direction.CW);
-        path.addArc(-32,-10,-22,10,-90,180);
-        path.addArc(22,-10,32,10,90,180);
+        path.addRect(-30,-40,30,40, Path.Direction.CCW);
+        path.moveTo(15,-40);
+        path.lineTo(10,-30);
+        path.lineTo(-10,-30);
+        path.lineTo(-15,-40);
+        path.close();
+        path.moveTo(-10,30);
+        path.lineTo(10,30);
+        path.lineTo(15,40);
+        path.lineTo(-15,40);
+        path.close();
 
         canvas.translate(50,50);
         canvas.drawPath(path,paint);
@@ -46,5 +44,4 @@ public class LightBase extends BasePrototype{
     public Picture getPicture() {
         return picture;
     }
-
 }

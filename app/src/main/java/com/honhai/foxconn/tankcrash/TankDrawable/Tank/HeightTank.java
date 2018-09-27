@@ -1,18 +1,15 @@
-package com.honhai.foxconn.tankcrash.Tank.Tank;
+package com.honhai.foxconn.tankcrash.TankDrawable.Tank;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 
-import com.honhai.foxconn.tankcrash.Tank.Base.HeightBase;
-import com.honhai.foxconn.tankcrash.Tank.Base.LightBase;
-import com.honhai.foxconn.tankcrash.Tank.Gun.HeightGun;
-import com.honhai.foxconn.tankcrash.Tank.Gun.LightGun;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.BasePrototype;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.GunPrototype;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Base.HeightBase;
+import com.honhai.foxconn.tankcrash.TankDrawable.Gun.HeightGun;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.BasePrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.GunPrototype;
+import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.TankPrototype;
 
 public class HeightTank extends TankPrototype {
 
