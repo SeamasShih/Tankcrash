@@ -11,15 +11,15 @@ import android.widget.TextView;
 import com.honhai.foxconn.tankcrash.choiceview.HeavyTank;
 import com.honhai.foxconn.tankcrash.choiceview.LightTank;
 import com.honhai.foxconn.tankcrash.choiceview.HeightTank;
-import com.honhai.foxconn.tankcrash.network.ReceiveListener;
-import com.honhai.foxconn.tankcrash.network.SerCliConstant;
-import com.honhai.foxconn.tankcrash.network.TankClient;
+import com.honhai.foxconn.tankcrash.network.UdpReceiveListener;
+import com.honhai.foxconn.tankcrash.network.UdpSerCliConstant;
+import com.honhai.foxconn.tankcrash.network.UdpTankClient;
 
-public class ChoiceActivity extends AppCompatActivity implements ReceiveListener {
+public class ChoiceActivity extends AppCompatActivity implements UdpReceiveListener {
 
     private final String TAG = "ChoiceActivity";
 
-    private TankClient tankClient;
+    private UdpTankClient udpTankClient;
     LightTank lightTank;
     HeavyTank heavyTank;
     HeightTank heightTank;
@@ -39,8 +39,8 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
     }
 
     private void setTankClient() {
-        tankClient = TankClient.getTankClient(this);
-        tankClient.sendMessage(SerCliConstant.CLI_REGISTER);
+        udpTankClient = UdpTankClient.getClient(this);
+        udpTankClient.sendMessage(UdpSerCliConstant.C_REGISTER);
     }
 
     private void setListener() {
@@ -63,7 +63,7 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
             tank = 2;
         });
         button.setOnClickListener(v -> {
-            tankClient.sendMessage(SerCliConstant.CLI_READY + gameData.getMyOrder() + tank);
+            udpTankClient.sendMessage(UdpSerCliConstant.C_READY + gameData.getMyOrder() + tank);
             button.setClickable(false);
         });
     }
@@ -77,8 +77,8 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
     }
 
     @Override
-    public void onMessageReceive(String message) {
-        if (message.startsWith(SerCliConstant.CLI_ORDER)) {
+    public void onUdpMessageReceive(String message) {
+        if (message.startsWith(UdpSerCliConstant.C_ORDER)) {
             if (gameData.getMyOrder() == -1) {
                 int order = Character.getNumericValue(message.charAt(1));
                 gameData.setMyOrder(order);
@@ -86,9 +86,9 @@ public class ChoiceActivity extends AppCompatActivity implements ReceiveListener
 
             String s = getResources().getString(R.string.player) + message.substring(2);
             runOnUiThread(() -> textView.setText(s));
-        } else if (message.startsWith(SerCliConstant.SER_START_GAME)) {
+        } else if (message.startsWith(UdpSerCliConstant.S_START_GAME)) {
             gameData.setPlayerAmount(
-                    Character.getNumericValue(message.charAt(SerCliConstant.SER_START_GAME.length())));
+                    Character.getNumericValue(message.charAt(UdpSerCliConstant.S_START_GAME.length())));
 
             Intent intent = new Intent();
             intent.setClass(this,GameActivity.class);

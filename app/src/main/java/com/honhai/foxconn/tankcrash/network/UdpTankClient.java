@@ -1,7 +1,5 @@
 package com.honhai.foxconn.tankcrash.network;
 
-import com.honhai.foxconn.tankcrash.MainActivity;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -9,16 +7,16 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class TankClient {
-    private final String TAG = "TankClient";
+public class UdpTankClient {
+    private final String TAG = "UdpTankClient";
 
-    private static TankClient tankClient;
-    private static ReceiveListener receiveListener;
+    private static UdpTankClient udpTankClient;
+    private static UdpReceiveListener udpReceiveListener;
     private DatagramSocket socket;
     private InetAddress address;
     private int port;
 
-    private TankClient(String ip, int port) {
+    private UdpTankClient(String ip, int port) {
         this.port = port;
 
         try {
@@ -30,12 +28,12 @@ public class TankClient {
         }
     }
 
-    public static TankClient getTankClient(Object object) {
-        if (tankClient == null) {
-            tankClient = new TankClient(MainActivity.serverIp, MainActivity.port);
+    public static UdpTankClient getClient(Object object) {
+        if (udpTankClient == null) {
+            udpTankClient = new UdpTankClient(UdpSerCliConstant.SERVER_IP, UdpSerCliConstant.PORT);
         }
-        receiveListener = (ReceiveListener) object;
-        return tankClient;
+        udpReceiveListener = (UdpReceiveListener) object;
+        return udpTankClient;
     }
 
     private void startReceiveMessage() {
@@ -51,7 +49,7 @@ public class TankClient {
                     e.printStackTrace();
                 }
                 returnString = new String(packet.getData(), 0, packet.getLength());
-                receiveListener.onMessageReceive(returnString);
+                udpReceiveListener.onUdpMessageReceive(returnString);
 
                 if (returnString.equals("end")) {
                     break;
