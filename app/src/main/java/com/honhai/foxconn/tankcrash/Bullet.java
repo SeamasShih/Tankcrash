@@ -4,8 +4,8 @@ package com.honhai.foxconn.tankcrash;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import com.honhai.foxconn.tankcrash.TankDrawable.Bullet.BasicBullet;
-import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.BulletPrototype;
+import com.honhai.foxconn.tankcrash.tankdrawable.bullet.BasicBullet;
+import com.honhai.foxconn.tankcrash.tankdrawable.prototype.BulletPrototype;
 
 public class Bullet {
 

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class GameData {
 
     private GameData() {
-        map = Map.create();
         for (int i = 0; i < playerAmount; i++) {
             players[i] = new Player(i);
         }
@@ -23,7 +22,6 @@ public class GameData {
     private int myOrder = -1;
     private Player[] players;
     private ArrayList<Bullet> bullets = new ArrayList<>();
-    public Map map;
 
     public boolean addBullet(int order , float x , float y){
         for (int i = 0; i < bullets.size(); i++) {
@@ -110,26 +108,5 @@ public class GameData {
     public String getMySiteString() {
         float[] f = getMyself().getSite();
         return " " + f[0] + " " + f[1];
-    }
-
-    public static class Map {
-        public static Map create() {
-            Map mMap = new Map();
-            mMap.width = 100;
-            mMap.height = 100;
-            mMap.randomMap();
-            return mMap;
-        }
-
-        public int width;
-        public int height;
-        public int[][] maps;
-
-        public void randomMap() {
-            if (width != 0 && height != 0) {
-                maps = new int[width][height];
-                //todo
-            }
-        }
     }
 }

@@ -1,11 +1,9 @@
 package com.honhai.foxconn.tankcrash;
 
-import android.util.Log;
-
-import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.TankPrototype;
-import com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeavyTank;
-import com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeightTank;
-import com.honhai.foxconn.tankcrash.TankDrawable.Tank.LightTank;
+import com.honhai.foxconn.tankcrash.tankdrawable.prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeavyTank;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeightTank;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.LightTank;
 
 public class Player {
 

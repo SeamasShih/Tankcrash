@@ -17,7 +17,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <com.honhai.foxconn.tankcrash.ChoiceView.LightTank
+    <com.honhai.foxconn.tankcrash.choiceview.LightTank
         android:id="@+id/lightTank"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -25,7 +25,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/heavyTank"/>
 
-    <com.honhai.foxconn.tankcrash.ChoiceView.HeavyTank
+    <com.honhai.foxconn.tankcrash.choiceview.HeavyTank
         android:id="@+id/heavyTank"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -34,7 +34,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <com.honhai.foxconn.tankcrash.ChoiceView.HeightTank
+    <com.honhai.foxconn.tankcrash.choiceview.HeightTank
         android:id="@+id/heightTank"
         android:layout_width="150dp"
         android:layout_height="150dp"

@@ -7,15 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.honhai.foxconn.tankcrash.ButtonView.DirectorKey;
-import com.honhai.foxconn.tankcrash.ButtonView.FireKey;
-import com.honhai.foxconn.tankcrash.ButtonView.RaiseKey;
-import com.honhai.foxconn.tankcrash.ButtonView.TurnKey;
-import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
-import com.honhai.foxconn.tankcrash.Network.SerCliConstant;
-import com.honhai.foxconn.tankcrash.Network.TankClient;
-import com.honhai.foxconn.tankcrash.TankDrawable.Prototype.TankPrototype;
-import com.honhai.foxconn.tankcrash.TankDrawable.Tank.HeightTank;
+import com.honhai.foxconn.tankcrash.buttonview.DirectorKey;
+import com.honhai.foxconn.tankcrash.buttonview.FireKey;
+import com.honhai.foxconn.tankcrash.buttonview.RaiseKey;
+import com.honhai.foxconn.tankcrash.buttonview.TurnKey;
+import com.honhai.foxconn.tankcrash.network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.network.SerCliConstant;
+import com.honhai.foxconn.tankcrash.network.TankClient;
+import com.honhai.foxconn.tankcrash.tankdrawable.prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeightTank;
 
 import java.util.StringTokenizer;
 
