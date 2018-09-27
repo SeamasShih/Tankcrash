@@ -1,6 +1,9 @@
-package com.honhai.foxconn.tankcrash.Network;
+package com.honhai.foxconn.tankcrash.network;
 
 public class UdpSerCliConstant {
+
+    final static String SERVER_IP = "192.168.1.37";
+    final static int PORT = 9487;
 
     public final static String C_REGISTER = "cregister";
     public final static String C_READY = "cready";

@@ -11,15 +11,18 @@ import com.honhai.foxconn.tankcrash.buttonview.DirectorKey;
 import com.honhai.foxconn.tankcrash.buttonview.FireKey;
 import com.honhai.foxconn.tankcrash.buttonview.RaiseKey;
 import com.honhai.foxconn.tankcrash.buttonview.TurnKey;
-import com.honhai.foxconn.tankcrash.network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.network.TcpReceiveListener;
+import com.honhai.foxconn.tankcrash.network.TcpSerCliConstant;
+import com.honhai.foxconn.tankcrash.network.TcpTankClient;
+import com.honhai.foxconn.tankcrash.network.UdpReceiveListener;
 import com.honhai.foxconn.tankcrash.network.UdpSerCliConstant;
-import com.honhai.foxconn.tankcrash.network.TankClient;
+import com.honhai.foxconn.tankcrash.network.UdpTankClient;
 import com.honhai.foxconn.tankcrash.tankdrawable.prototype.TankPrototype;
 import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeightTank;
 
 import java.util.StringTokenizer;
 
-public class GameActivity extends AppCompatActivity implements ReceiveListener {
+public class GameActivity extends AppCompatActivity implements UdpReceiveListener, TcpReceiveListener {
     private final String TAG = "GameActivity";
     GameSurfaceView surfaceView;
     ConstraintLayout mainLayout;
@@ -28,7 +31,8 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     RaiseKey raiseKey, lowerKey;
     TurnKey turnLeftKey, turnRightKey;
     GameData gameData = GameData.getInstance();
-    TankClient tankClient = TankClient.getTankClient(this);
+    UdpTankClient udpTankClient = UdpTankClient.getClient(this);
+    TcpTankClient tcpTankClient = TcpTankClient.getClient(this);
     int bulletOrder = 0;
 
     @Override
@@ -82,27 +86,27 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     private void setListener() {
         upKey.setOnClickListener(v -> {
             gameData.getMyself().goUp();
-            tankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            udpTankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         downKey.setOnClickListener(v -> {
             gameData.getMyself().goDown();
-            tankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            udpTankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         leftKey.setOnClickListener(v -> {
             gameData.getMyself().goLeft();
-            tankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            udpTankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         rightKey.setOnClickListener(v -> {
             gameData.getMyself().goRight();
-            tankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            udpTankClient.sendMessage(UdpSerCliConstant.C_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
         });
         turnLeftKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunLeft();
-            tankClient.sendMessage(UdpSerCliConstant.C_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
+            udpTankClient.sendMessage(UdpSerCliConstant.C_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
         });
         turnRightKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunRight();
-            tankClient.sendMessage(UdpSerCliConstant.C_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
+            udpTankClient.sendMessage(UdpSerCliConstant.C_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
         });
         fireKey.setOnClickListener(v -> {
             int order = gameData.getMyOrder()*10 + bulletOrder;
@@ -128,7 +132,8 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
             }
             gameData.shoot(order,x,y);
             bulletOrder = (bulletOrder+1)%10;
-            //todo Ian send bullet data to server
+
+            tcpTankClient.sendMessage(TcpSerCliConstant.C_FIRE + gameData.getMyOrder());
         });
     }
 
@@ -142,12 +147,12 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     }
 
     private void setClientInfo() {
-        tankClient.sendMessage(UdpSerCliConstant.C_INITIAL_TANK_DATA);
+        udpTankClient.sendMessage(UdpSerCliConstant.C_INITIAL_TANK_DATA);
     }
 
     @Override
-    public void onMessageReceive(String message) {
-        Log.d(TAG, "onMessageReceive: message : " + message);
+    public void onUdpMessageReceive(String message) {
+        Log.d(TAG, "onUdpMessageReceive: message : " + message);
 
         if (message.startsWith(UdpSerCliConstant.C_INITIAL_TANK_DATA)) {
             for (int i = 0; i < gameData.getPlayerAmount(); i++) {
@@ -162,5 +167,10 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
             float y = Float.valueOf(tokenizer.nextToken());
             gameData.setTankSite(order, x, y);
         }
+    }
+
+    @Override
+    public void onTcpMessageReceive(String message) {
+        Log.d(TAG, "onTcpMessageReceive: message : " + message);
     }
 }
