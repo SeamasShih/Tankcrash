@@ -8,12 +8,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.honhai.foxconn.tankcrash.ChoiceView.HeavyTank;
-import com.honhai.foxconn.tankcrash.ChoiceView.LightTank;
-import com.honhai.foxconn.tankcrash.ChoiceView.HeightTank;
-import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
-import com.honhai.foxconn.tankcrash.Network.UdpSerCliConstant;
-import com.honhai.foxconn.tankcrash.Network.TankClient;
+import com.honhai.foxconn.tankcrash.choiceview.HeavyTank;
+import com.honhai.foxconn.tankcrash.choiceview.LightTank;
+import com.honhai.foxconn.tankcrash.choiceview.HeightTank;
+import com.honhai.foxconn.tankcrash.network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.network.UdpSerCliConstant;
+import com.honhai.foxconn.tankcrash.network.TankClient;
 
 public class ChoiceActivity extends AppCompatActivity implements ReceiveListener {
 

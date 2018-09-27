@@ -7,15 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.honhai.foxconn.tankcrash.ButtonView.DirectorKey;
-import com.honhai.foxconn.tankcrash.ButtonView.FireKey;
-import com.honhai.foxconn.tankcrash.ButtonView.RaiseKey;
-import com.honhai.foxconn.tankcrash.ButtonView.TurnKey;
-import com.honhai.foxconn.tankcrash.Network.ReceiveListener;
-import com.honhai.foxconn.tankcrash.Network.UdpSerCliConstant;
-import com.honhai.foxconn.tankcrash.Network.TankClient;
-import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
-import com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank;
+import com.honhai.foxconn.tankcrash.buttonview.DirectorKey;
+import com.honhai.foxconn.tankcrash.buttonview.FireKey;
+import com.honhai.foxconn.tankcrash.buttonview.RaiseKey;
+import com.honhai.foxconn.tankcrash.buttonview.TurnKey;
+import com.honhai.foxconn.tankcrash.network.ReceiveListener;
+import com.honhai.foxconn.tankcrash.network.UdpSerCliConstant;
+import com.honhai.foxconn.tankcrash.network.TankClient;
+import com.honhai.foxconn.tankcrash.tankdrawable.prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeightTank;
 
 import java.util.StringTokenizer;
 
@@ -29,6 +29,7 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
     TurnKey turnLeftKey, turnRightKey;
     GameData gameData = GameData.getInstance();
     TankClient tankClient = TankClient.getTankClient(this);
+    int bulletOrder = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,32 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
         turnRightKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunRight();
             tankClient.sendMessage(UdpSerCliConstant.C_TANK_DIR + gameData.getMyOrder() + gameData.getMySiteString());
+        });
+        fireKey.setOnClickListener(v -> {
+            int order = gameData.getMyOrder()*10 + bulletOrder;
+            int rotation = gameData.getMyself().getTank().getGunRotation();
+            float x = 0,y = 0;
+            switch ((rotation+360)%360){
+                case 0:
+                    x = gameData.getMyself().getSite()[0];
+                    y = gameData.getMyself().getSite()[1]-1;
+                    break;
+                case 90:
+                    x = gameData.getMyself().getSite()[0]+1;
+                    y = gameData.getMyself().getSite()[1];
+                    break;
+                case 180:
+                    x = gameData.getMyself().getSite()[0];
+                    y = gameData.getMyself().getSite()[1]+1;
+                    break;
+                case 270:
+                    x = gameData.getMyself().getSite()[0]-1;
+                    y = gameData.getMyself().getSite()[1];
+                    break;
+            }
+            gameData.shoot(order,x,y);
+            bulletOrder = (bulletOrder+1)%10;
+            //todo Ian send bullet data to server
         });
     }
 

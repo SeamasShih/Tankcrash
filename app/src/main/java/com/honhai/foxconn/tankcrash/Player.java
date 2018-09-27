@@ -1,9 +1,9 @@
 package com.honhai.foxconn.tankcrash;
 
-import com.honhai.foxconn.tankcrash.Tank.Prototype.TankPrototype;
-import com.honhai.foxconn.tankcrash.Tank.Tank.HeavyTank;
-import com.honhai.foxconn.tankcrash.Tank.Tank.HeightTank;
-import com.honhai.foxconn.tankcrash.Tank.Tank.LightTank;
+import com.honhai.foxconn.tankcrash.tankdrawable.prototype.TankPrototype;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeavyTank;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.HeightTank;
+import com.honhai.foxconn.tankcrash.tankdrawable.tank.LightTank;
 
 public class Player {
 
@@ -44,7 +44,6 @@ public class Player {
     public void setTank(TankPrototype tank) {
         this.tank = tank;
     }
-
 
     public void setTank(int tank) {
         switch (tank) {

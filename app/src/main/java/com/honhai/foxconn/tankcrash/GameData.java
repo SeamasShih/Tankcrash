@@ -1,9 +1,12 @@
 package com.honhai.foxconn.tankcrash;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+
 public class GameData {
 
     private GameData() {
-        map = Map.create();
         for (int i = 0; i < playerAmount; i++) {
             players[i] = new Player(i);
         }
@@ -18,8 +21,34 @@ public class GameData {
     private int playerAmount = 0;
     private int myOrder = -1;
     private Player[] players;
-    private Player mine = new Player(99);
-    public Map map;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+
+    public boolean addBullet(int order , float x , float y){
+        for (int i = 0; i < bullets.size(); i++) {
+            if (bullets.get(i).getOrder() == order) {
+                return false;
+            }
+        }
+        bullets.add(new Bullet(order,x,y));
+        return true;
+    }
+
+    public void removeBullet(int order) {
+        for (int i = 0; i < bullets.size(); i++) {
+            if (bullets.get(i).getOrder() == order) {
+                bullets.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void shoot(int order,float x,float y){
+        addBullet(order,x,y);
+    }
+
+    public ArrayList<Bullet> getBullet(){
+        return bullets;
+    }
 
     public int getPlayerAmount() {
         return playerAmount;
@@ -69,8 +98,7 @@ public class GameData {
     }
 
     public Player getMyself() {
-//        return players[myOrder];
-        return mine;
+        return players[myOrder];
     }
 
     public float[] getMySite() {
@@ -80,26 +108,5 @@ public class GameData {
     public String getMySiteString() {
         float[] f = getMyself().getSite();
         return " " + f[0] + " " + f[1];
-    }
-
-    public static class Map {
-        public static Map create() {
-            Map mMap = new Map();
-            mMap.width = 100;
-            mMap.height = 100;
-            mMap.randomMap();
-            return mMap;
-        }
-
-        public int width;
-        public int height;
-        public int[][] maps;
-
-        public void randomMap() {
-            if (width != 0 && height != 0) {
-                maps = new int[width][height];
-                //todo
-            }
-        }
     }
 }
