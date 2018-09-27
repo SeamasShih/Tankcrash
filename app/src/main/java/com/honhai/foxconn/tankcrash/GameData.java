@@ -7,9 +7,18 @@ import java.util.ArrayList;
 public class GameData {
 
     private GameData() {
-        for (int i = 0; i < playerAmount; i++) {
-            players[i] = new Player(i);
+
+        map = new MapData[10][10];
+
+        for (int i = 0 ; i < map.length ; i++){
+            for (int j = 0 ; j < map[0].length ; j++) {
+                if ((i+1)%2 == 0 || (j+1)%2 == 0)
+                    map[j][i] = MapData.TEST_ROAD;
+                else
+                    map[j][i] = MapData.TEST_PILLAR;
+            }
         }
+
     }
 
 
@@ -22,6 +31,24 @@ public class GameData {
     private int myOrder = -1;
     private Player[] players;
     private ArrayList<Bullet> bullets = new ArrayList<>();
+    private MapData[][] map;
+    private int mapX , mapY;
+
+    public void setMap(MapData[][] map) {
+        this.map = map;
+        mapX = map[0].length;
+        mapY = map.length;
+    }
+
+    public MapData getMap(int x , int y){
+        if (x >= map[0].length || x < 0 || y >= map.length || y < 0)
+            return null;
+        return map[y][x];
+    }
+
+    public MapData[][] getMap(){
+        return map;
+    }
 
     public boolean addBullet(int order , float x , float y){
         for (int i = 0; i < bullets.size(); i++) {

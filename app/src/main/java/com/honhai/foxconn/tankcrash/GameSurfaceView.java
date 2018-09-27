@@ -25,6 +25,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     float x;
     float y;
     GameData gameData = GameData.getInstance();
+    Paint fogPaint = new Paint();
+    Path fog;
+    ArrayList<Bullet> b;
 
     private void initial() {
         mSurfaceHolder = getHolder();
@@ -33,12 +36,19 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         setFocusable(true);
         setKeepScreenOn(true);
         setFocusableInTouchMode(true);
+
+        fogPaint.setColor(Color.DKGRAY);
+        fogPaint.setAntiAlias(true);
+
+        fog = new Path();
+        fog.setFillType(Path.FillType.INVERSE_WINDING);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         mIsDrawing = true;
         new Thread(this).start();
+        fog.addCircle(0,0,getHeight()/2, Path.Direction.CCW);
     }
 
     @Override
@@ -62,6 +72,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         try {
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.translate(mCanvas.getWidth()/2,mCanvas.getHeight()/2);
+            mCanvas.drawColor(Color.WHITE);
             x = gameData.getMyself().getSite()[0];
             y = gameData.getMyself().getSite()[1];
 
@@ -81,19 +92,37 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private void drawMap() {
         mCanvas.save();
         //todo draw map
-        mCanvas.drawColor(Color.WHITE);
+        MapData[][] map = gameData.getMap();
+        if (map != null)
+            onDrawMap(map);
         mCanvas.restore();
     }
 
-    private void drawFog(){
-        Paint paint = new Paint();
-        paint.setColor(Color.DKGRAY);
-        paint.setAntiAlias(true);
+    private void onDrawMap(MapData[][] map) {
+        Paint one = new Paint();
+        one.setColor(Color.CYAN);
+        Paint two = new Paint();
+        two.setColor(Color.BLUE);
+        for (float j = y-6 ; j <= y+6 ; j++){
+            for (float i = x-6 ; i <= x+6 ; i++){
+                if (j < 0 || i < 0 || j >= map.length || i >= map[0].length)
+                    mCanvas.drawCircle((i-x)*interval,(j-y)*interval,30,new Paint());
+                else {
+                    switch (map[(int) j][(int) i]) {
+                        case TEST_ROAD:
+                            mCanvas.drawCircle((i-x)*interval,(j-y)*interval, 30, one);
+                            break;
+                        case TEST_PILLAR:
+                            mCanvas.drawCircle((i-x)*interval,(j-y)*interval, 30, two);
+                            break;
+                    }
+                }
+            }
+        }
+    }
 
-        Path fog = new Path();
-        fog.addCircle(0,0,mCanvas.getHeight()/2, Path.Direction.CCW);
-        fog.setFillType(Path.FillType.INVERSE_WINDING);
-        mCanvas.drawPath(fog,paint);
+    private void drawFog(){
+        mCanvas.drawPath(fog, fogPaint);
     }
 
     private void drawTank(){
@@ -104,7 +133,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void drawBullet(){
-        ArrayList<Bullet> b = gameData.getBullet();
+        b = gameData.getBullet();
         if (b.size() != 0){
             b.forEach(bullet -> bullet.draw(mCanvas,(bullet.getX()-x)*interval,(bullet.getY()-y)*interval,interval,interval));
         }

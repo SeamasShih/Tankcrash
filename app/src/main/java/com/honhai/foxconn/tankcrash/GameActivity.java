@@ -81,20 +81,29 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
 
     private void setListener() {
         upKey.setOnClickListener(v -> {
-            gameData.getMyself().goUp();
-            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            if (checkCanGo(0)) {
+                Log.d("Seamas","gogogo");
+                gameData.getMyself().goUp();
+                tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            }
         });
         downKey.setOnClickListener(v -> {
-            gameData.getMyself().goDown();
-            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            if (checkCanGo(2)) {
+                gameData.getMyself().goDown();
+                tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            }
         });
         leftKey.setOnClickListener(v -> {
-            gameData.getMyself().goLeft();
-            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            if (checkCanGo(3)) {
+                gameData.getMyself().goLeft();
+                tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            }
         });
         rightKey.setOnClickListener(v -> {
-            gameData.getMyself().goRight();
-            tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            if (checkCanGo(1)) {
+                gameData.getMyself().goRight();
+                tankClient.sendMessage(SerCliConstant.CLI_TANK_SITE + gameData.getMyOrder() + gameData.getMySiteString());
+            }
         });
         turnLeftKey.setOnClickListener(v -> {
             gameData.getMyself().getTank().turnGunLeft();
@@ -132,6 +141,30 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
         });
     }
 
+    private boolean checkCanGo(int direction){
+        int x = (int)gameData.getMyself().getSite()[0];
+        int y = (int)gameData.getMyself().getSite()[1];
+        switch (direction){
+            case 0: //up
+                if (gameData.getMap(x,y-1) == MapData.TEST_ROAD)
+                    return true;
+                break;
+            case 1: //right
+                if (gameData.getMap(x+1,y) == MapData.TEST_ROAD)
+                    return true;
+                break;
+            case 2: // down
+                if (gameData.getMap(x,y+1) == MapData.TEST_ROAD)
+                    return true;
+                break;
+            case 3: //left
+                if (gameData.getMap(x-1,y) == MapData.TEST_ROAD)
+                    return true;
+                break;
+        }
+        return false;
+    }
+
     private void inflateButtonView() {
         View.inflate(this, R.layout.game_button_layout, mainLayout);
     }
@@ -147,8 +180,6 @@ public class GameActivity extends AppCompatActivity implements ReceiveListener {
 
     @Override
     public void onMessageReceive(String message) {
-        Log.d(TAG, "onMessageReceive: message : " + message);
-
         if (message.startsWith(SerCliConstant.CLI_INITIAL_TANK_DATA)) {
             for (int i = 0; i < gameData.getPlayerAmount(); i++) {
                 int tank = Character.getNumericValue(message.charAt(SerCliConstant.CLI_INITIAL_TANK_DATA.length() + i));
